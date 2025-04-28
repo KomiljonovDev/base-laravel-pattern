@@ -22,4 +22,4 @@ yarn-error.log
 /.vscodergi
 /.zed
 docker
-docker-compose.ymlg
+docker-compose.yml

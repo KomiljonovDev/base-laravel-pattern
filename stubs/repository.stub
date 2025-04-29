@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Repositories\{{modelName}};
+
+use App\Models\{{modelName}};
+use App\Repositories\Contracts\{{modelName}}RepositoryInterface;
+use App\Repositories\BaseRepository;
+
+class {{modelName}}Repository extends BaseRepository implements {{modelName}}RepositoryInterface
+{
+    protected $entity;
+
+    public function __construct({{modelName}} $model)
+    {
+        $this->entity = $model;
+    }
+}

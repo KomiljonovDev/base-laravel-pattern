@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Log;
 
 /**
  * Class BaseService
- * 
+ *
  * @package App\Services
  */
 abstract class BaseService implements ServiceInterface
@@ -252,7 +252,7 @@ abstract class BaseService implements ServiceInterface
                     case 'isNull':
                         $query->whereNull($key);
                         break;
-                        
+
                     case 'isNotNull':
                         $query->whereNotNull($key);
                         break;
@@ -286,10 +286,10 @@ abstract class BaseService implements ServiceInterface
         try {
             if (isset($this->filter_fields['sort_by']) && isset($this->filter_fields['order_by'])) {
                 $sortBy = $this->filter_fields['sort_by'];
-                $orderBy = in_array(strtolower($this->filter_fields['order_by']), ['asc', 'desc']) 
-                    ? $this->filter_fields['order_by'] 
+                $orderBy = in_array(strtolower($this->filter_fields['order_by']), ['asc', 'desc'])
+                    ? $this->filter_fields['order_by']
                     : 'desc';
-                    
+
                 $query->orderBy($sortBy, $orderBy);
             } else {
                 $query->orderBy('id', 'desc');
@@ -298,7 +298,7 @@ abstract class BaseService implements ServiceInterface
             Log::error('Error applying sort: ' . $e->getMessage());
             $query->orderBy('id', 'desc');
         }
-        
+
         return $query;
     }
 
@@ -382,7 +382,7 @@ abstract class BaseService implements ServiceInterface
             return false;
         }
     }
-    
+
     /**
      * Create or update multiple records in a transaction.
      *
@@ -393,13 +393,13 @@ abstract class BaseService implements ServiceInterface
     {
         return $this->transaction(function () use ($records) {
             $success = true;
-            
+
             foreach ($records as $record) {
                 // If the record has an ID, update it
                 if (isset($record['id'])) {
                     $id = $record['id'];
                     unset($record['id']);
-                    
+
                     $result = $this->edit($record, $id);
                     if ($result === false) {
                         $success = false;
@@ -412,17 +412,17 @@ abstract class BaseService implements ServiceInterface
                         $success = false;
                     }
                 }
-                
+
                 // If any operation failed, abort the transaction
                 if (!$success) {
                     return false;
                 }
             }
-            
+
             return $success;
         });
     }
-    
+
     /**
      * Delete multiple records by their IDs.
      *
@@ -433,7 +433,7 @@ abstract class BaseService implements ServiceInterface
     {
         return $this->transaction(function () use ($ids) {
             $success = true;
-            
+
             foreach ($ids as $id) {
                 $result = $this->delete($id);
                 if (!$result) {
@@ -441,11 +441,11 @@ abstract class BaseService implements ServiceInterface
                     break;
                 }
             }
-            
+
             return $success;
         });
     }
-    
+
     /**
      * Execute a complex operation within a database transaction.
      *
@@ -460,8 +460,9 @@ abstract class BaseService implements ServiceInterface
             Log::error('Transaction failed: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString()
             ]);
-            
+
             throw $e;
         }
     }
+}
 
